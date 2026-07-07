@@ -490,4 +490,5 @@ For detailed architecture explanation and design rationale, see [explain.md](exp
 
 **License:** ClaimSight AI — Assignment project for Synapx.
 #   - A u t o n o m o u s - I n s u r a n c e - C l a i m s - P r o c e s s i n g - A g e n t  
+ #   - A u t o n o m o u s - I n s u r a n c e - C l a i m s - P r o c e s s i n g - A g e n t  
  
