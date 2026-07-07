@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document Processing Dashboard</title>
+  <meta name="description" content="Autonomous document processing pipeline powered by Gemini AI." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── Header ──────────────────────────────────────────────────────────── -->
+  <header class="site-header">
+    <div class="header-inner">
+      <nav class="header-nav" style="margin-left: 0;">
+        <button class="nav-btn active" id="nav-upload" onclick="showPanel('upload')">Upload</button>
+        <button class="nav-btn" id="nav-history" onclick="showPanel('history')">History</button>
+      </nav>
+      <div class="header-badge">
+        <span class="badge-dot"></span>
+        <span>Gemini 2.5 Flash</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Main ────────────────────────────────────────────────────────────── -->
+  <main class="main-content">
+
+    <!-- Upload Panel -->
+    <section class="panel" id="panel-upload">
+      <div class="panel-hero">
+        <h1 class="hero-title">Document Ingestion & Processing</h1>
+        <p class="hero-subtitle">Autonomous extraction · Validation · Deterministic routing</p>
+      </div>
+
+      <!-- Upload Zone -->
+      <div class="upload-card" id="upload-card">
+        <div class="upload-zone" id="upload-zone"
+             ondragover="handleDragOver(event)"
+             ondragleave="handleDragLeave(event)"
+             ondrop="handleDrop(event)">
+          <div class="upload-icon-wrap">
+            <svg class="upload-icon" viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="24" fill="url(#upload-circle-grad)" opacity="0.12"/>
+              <path d="M24 32V20M24 20l-4 4M24 20l4 4" stroke="url(#upload-arrow-grad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16 36h16" stroke="url(#upload-arrow-grad)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+              <defs>
+                <linearGradient id="upload-circle-grad" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#ffffff"/><stop offset="1" stop-color="#737373"/>
+                </linearGradient>
+                <linearGradient id="upload-arrow-grad" x1="16" y1="20" x2="32" y2="36" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#ffffff"/><stop offset="1" stop-color="#a3a3a3"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <p class="upload-primary">Drop your FNOL document here</p>
+          <p class="upload-secondary">PDF or TXT — up to 20 MB</p>
+          <label class="upload-btn" for="file-input">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Choose File
+          </label>
+          <input type="file" id="file-input" accept=".pdf,.txt,.text" onchange="handleFileSelect(event)" />
+        </div>
+
+        <!-- Selected file preview -->
+        <div class="file-preview" id="file-preview" style="display:none;">
+          <div class="file-info">
+            <div class="file-icon-wrap">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div>
+              <p class="file-name" id="file-name-display"></p>
+              <p class="file-size" id="file-size-display"></p>
+            </div>
+            <button class="file-clear" onclick="clearFile()" title="Remove file">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          <button class="process-btn" id="process-btn" onclick="processClaim()">
+            <span class="btn-text">Process Claim</span>
+            <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Pipeline Progress -->
+      <div class="pipeline-card" id="pipeline-card" style="display:none;">
+        <h3 class="pipeline-title">Processing Pipeline</h3>
+        <div class="pipeline-stages" id="pipeline-stages">
+          <div class="pipeline-stage" id="stage-0" data-stage="0">
+            <div class="stage-indicator"><span class="stage-num">0</span></div>
+            <div class="stage-body">
+              <div class="stage-label">Ingestion & Preprocessing</div>
+              <div class="stage-detail">Extracting text, detecting vision requirements, stripping boilerplate</div>
+              <pre class="stage-output" id="stage-0-output"></pre>
+            </div>
+            <div class="stage-status-icon"></div>
+          </div>
+          <div class="pipeline-connector"></div>
+          <div class="pipeline-stage" id="stage-1" data-stage="1">
+            <div class="stage-indicator"><span class="stage-num">1</span></div>
+            <div class="stage-body">
+              <div class="stage-label">Extraction Agent <span class="gemini-badge">Gemini</span></div>
+              <div class="stage-detail">Single structured API call · Extracts fields + risk signals</div>
+              <pre class="stage-output" id="stage-1-output"></pre>
+            </div>
+            <div class="stage-status-icon"></div>
+          </div>
+          <div class="pipeline-connector"></div>
+          <div class="pipeline-stage" id="stage-2" data-stage="2">
+            <div class="stage-indicator"><span class="stage-num">2</span></div>
+            <div class="stage-body">
+              <div class="stage-label">Validation Agent <span class="python-badge">Python</span></div>
+              <div class="stage-detail">Missing fields · Tiered confidence · Cross-field consistency</div>
+              <pre class="stage-output" id="stage-2-output"></pre>
+            </div>
+            <div class="stage-status-icon"></div>
+          </div>
+          <div class="pipeline-connector"></div>
+          <div class="pipeline-stage" id="stage-3" data-stage="3">
+            <div class="stage-indicator"><span class="stage-num">3</span></div>
+            <div class="stage-body">
+              <div class="stage-label">Routing Agent <span class="python-badge">Python</span></div>
+              <div class="stage-detail">Composite escalation score · Deterministic rule engine</div>
+              <pre class="stage-output" id="stage-3-output"></pre>
+            </div>
+            <div class="stage-status-icon"></div>
+          </div>
+          <div class="pipeline-connector"></div>
+          <div class="pipeline-stage" id="stage-4" data-stage="4">
+            <div class="stage-indicator"><span class="stage-num">4</span></div>
+            <div class="stage-body">
+              <div class="stage-label">Explanation Builder <span class="python-badge">Python</span></div>
+              <div class="stage-detail">Templated reasoning · Zero LLM cost · Fully auditable</div>
+              <pre class="stage-output" id="stage-4-output"></pre>
+            </div>
+            <div class="stage-status-icon"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Panel -->
+      <div class="results-card" id="results-card" style="display:none;"></div>
+
+    </section>
+
+    <!-- History Panel -->
+    <section class="panel" id="panel-history" style="display:none;">
+      <div class="panel-hero">
+        <h2 class="hero-title" style="font-size:2rem">History</h2>
+        <p class="hero-subtitle">All processed documents</p>
+      </div>
+      <div class="history-container" id="history-container">
+        <div class="history-loading" id="history-loading">
+          <div class="spinner"></div><span>Loading claims…</span>
+        </div>
+        <div id="history-list"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

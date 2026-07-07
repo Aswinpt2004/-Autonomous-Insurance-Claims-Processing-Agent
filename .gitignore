@@ -1,0 +1,150 @@
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Python Virtual Environments
+venv/
+env/
+ENV/
+.venv
+.ENV
+
+# Python Cache & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Python Distribution & Packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# Editors & IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.project
+.pydevproject
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# IDE specific files
+*.code-workspace
+.pylintrc
+.flake8
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# Flask Instance Folder
+instance/
+
+# Logs
+*.log
+logs/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# OS specific
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# IDE temporary files
+.vscode/
+.idea/
+*.code-workspace
+
+# Testing
+test_results/
+.testcache/
+
+# Generated files
+*.generated.py
+
+# Local configuration overrides
+config.local.py
+settings.local.py
+
+# Mac OS specific
+.AppleDouble
+.LSOverride
+._*
+
+# Windows specific
+$RECYCLE.BIN/
+ehthumbs.db
+
+# Project specific
+output/
+results/
+temp/
+tmp/
+*.pdf
+processed_claims/
+
