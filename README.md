@@ -489,4 +489,3 @@ curl http://localhost:5000/health
 For detailed architecture explanation and design rationale, see [explain.md](explain.md).
 
 **License:** ClaimSight AI — Assignment project for Synapx.
- 
